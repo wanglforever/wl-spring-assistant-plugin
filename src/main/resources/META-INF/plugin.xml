@@ -1,0 +1,58 @@
+<idea-plugin>
+    <id>wl-spring-assistant</id>
+    <name>wl Spring Assistant</name>
+    <vendor email="1411956542@qq.com" url="https://blog.csdn.net/wl1411956542">wangl</vendor>
+
+    <description><![CDATA[
+    This plugin adds auto-completion support for Spring Boot configuration files (application.yml, application.properties).
+    <br/>
+    <br/>
+    Features:
+       <ul>
+          <li>Support .properties file and .yaml file automatically completes </li>
+          <li>Support for navigating to the corresponding property class from the .yml file and .properties file</li>
+          <li>Support for mutual jump between @TransactionalEventListener annotations and The location where the applicationEventPublisher#publishEvent method is called</li>
+      </ul>
+    <br/>
+    中文说明：
+    https://gitee.com/wl1411956542/wl-spring-assistant-plugin
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.properties</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
+
+    <depends config-file="maven.xml" optional="true">org.jetbrains.idea.maven</depends>
+    <depends config-file="gradle.xml" optional="true">com.intellij.gradle</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="com.wangl.spring.startup.IndexSpringStartupActivity" />
+        <completion.contributor language="Properties" implementationClass="com.wangl.spring.completionContributor.PropertiesKeyCompletionContributor" />
+        <completion.contributor language="yaml" implementationClass="com.wangl.spring.completionContributor.YamlKeyCompletionContributor" />
+        <gotoDeclarationHandler implementation="com.wangl.spring.declarationHandler.PropertiesKeyGotoDeclarationHandler" />
+        <gotoDeclarationHandler implementation="com.wangl.spring.declarationHandler.YamlKeyGotoDeclarationHandler" />
+        <projectService serviceImplementation="com.wangl.spring.service.ProjectSuggestionService" />
+        <moduleService serviceImplementation="com.wangl.spring.service.SuggestionService" />
+
+        <codeInsight.lineMarkerProvider id="TransactionalEventListenerLineMarkerProvider" language="JAVA"
+                                        implementationClass="com.wangl.spring.provider.TransactionalEventListenerLineMarkerProvider" />
+        <codeInsight.lineMarkerProvider id="ApplicationEventPublisherLineMarkerProvider" language="JAVA"
+                                        implementationClass="com.wangl.spring.provider.ApplicationEventPublisherLineMarkerProvider" />
+    </extensions>
+
+
+    <change-notes><![CDATA[
+     <h4>1.1.x</h4>
+     <ul>
+          <li>Support .properties file and .yaml file automatically completes </li>
+          <li>Support for navigating to the corresponding property class from the .yml file and .properties file</li>
+          <li>Support for mutual jump between @TransactionalEventListener annotations and The location where the applicationEventPublisher#publishEvent method is called</li>
+      </ul>
+      ]]>
+    </change-notes>
+
+</idea-plugin>

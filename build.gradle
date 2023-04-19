@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.13.2'
+}
+
+group 'com.wangl.plugin'
+version '1.1.222.231'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+    annotationProcessor('org.projectlombok:lombok:1.18.26')
+    implementation('org.projectlombok:lombok:1.18.26')
+    implementation('org.apache.ant:ant:1.10.9')
+    implementation('org.springframework.boot:spring-boot:2.2.1.RELEASE')
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version = "2022.2"
+    type = "IC"
+    plugins = ['java','properties','yaml',"maven","gradle"]
+}
+
+
+patchPluginXml {
+    sinceBuild = '222'
+    untilBuild = '231.*'
+}
+
+test {
+    useJUnitPlatform()
+}
